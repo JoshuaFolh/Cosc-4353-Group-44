@@ -1,0 +1,86 @@
+/*sidebar*/
+.menu {
+    background-color: red;
+    height: 100vh;
+    width: 15vh;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    z-index: 1;
+    text-align: center;
+}
+
+.list_icon {
+    width: 11vh;
+    height: 11vh;
+}
+
+.list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.list_item {
+    background-color: none;
+    padding: 1vh 0vh 1vh 0vh;
+    transition: background-color 250ms linear;
+    z-index: 2;
+}
+
+.list_item a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.list_item:hover {
+    background-color: #bf0808
+}
+/*end of sidebar*/
+
+.container {
+    width: 50vh;
+    height: 90vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.container > .inbox_preview {
+    border-top: solid 2px black;
+    border-bottom: solid 2px black;
+    border-left: solid 2px black;
+    width: 50vh;
+    height: 90vh;
+    position: absolute;
+    left: 15vh;
+    top: 5vh;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    margin-left: 1vh;
+}
+
+.inbox_preview > .notif_preview {
+    content: "";
+    border: solid 1px black;
+    width: 48vh; /*2vh less to make room for scrollbar*/
+    height: 20vh;
+    text-align: left;
+    padding-top: 1vh;
+    padding-left: 1vh;
+    overflow: hidden;
+    background-color: white;
+    transition: background-color 100ms linear;
+}
+
+.notif_preview:hover {
+    background-color: #d5d7db;
+}
+
+.notif_full {
+    border: solid 2px black;
+    width: 130vh;
+    height: 90vh;
+    position: absolute;
+    top: 5vh;
+    left: 66vh;
+}

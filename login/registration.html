@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1">
+        <title>Register</title>
+        <link rel="stylesheet" href="login.css">
+    </head>
+    <body>
+        <form>
+            <div class="container">
+                <form class="form" id="login">
+                    <h1 class="form_title">Registration</h1>
+                    <!--<div class="form_message-error">Email already in use</div>-->
+                    <div class="form_input-group">
+                        <input type="text" class="form_input" autofocus required placeholder="Email">
+                    </div>
+                    <div class="form_input-group">
+                        <input type="password" class="form_input" autofocus required placeholder="Password">
+                    </div>
+                    <!--this will have to actually do something later instead of just linking back to the login-->
+                    <button onclick="gotoLink(this)" value="../index.html" type="button">Register</button>
+                </form>
+            </div>
+        </form>
+
+        <script src="login.js"></script>
+    </body>
+</html>

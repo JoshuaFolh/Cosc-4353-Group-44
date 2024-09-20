@@ -2,7 +2,7 @@ function gotoLink(link) {
     window.location.href = link.value;
 }
 
-//auth should be backend later
+//this all should be backend later
 function auth(event) {
     var user = document.getElementById("username").value;
     var pw = document.getElementById("password").value;
@@ -16,6 +16,5 @@ function auth(event) {
     event.preventDefault();
 }
 
-const ele = document.querySelector("form");
-ele.addEventListener("submit", auth, false);
-
+const login_ele = document.querySelector(".login_form");
+login_ele.addEventListener("submit", auth, false);

@@ -1,0 +1,43 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+html body {
+    font-family: "Inter", sans-serif;
+}
+
+/*sidebar*/
+.menu {
+    background-color: #ffe8d6;
+    height: 100vh;
+    width: 15vh;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    z-index: 1;
+    text-align: center;
+}
+
+.list_icon {
+    width: 11vh;
+    height: 11vh;
+}
+
+.list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.list_item {
+    background-color: none;
+    padding: 1vh 0vh 1vh 0vh;
+    transition: background-color 250ms linear;
+}
+
+.list_item a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.list_item:hover {
+    background-color: #a5a58d
+}
+/*end of sidebar*/

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1">
+        <title>Notifications</title>
+        <link rel="stylesheet" href="notifications.css">
+    </head>
+    <body>
+        <!--testing button, remove this later-->
+        <button class="button-add_notif" onclick="addNotif()" style="margin-left: 200px">Receive Notification</button>
+
+        <div class="menu">
+            <ul class="list">
+                <li class="list_item">
+                    <a href="../home.html">
+                        <img class="list_icon" src="../images/home.png" alt="home_icon"><br />
+                        <span class="list_text">Home</span>
+                    </a>
+                </li>
+                <li class="list_item">
+                    <a href="../profile/profile.html">
+                        <img class="list_icon" src="../images/user.png" alt="user_icon"><br />
+                        <span class="list_text">Profile</span>
+                    </a>
+                </li>
+                <li class="list_item">
+                    <a href="../events/event.html">
+                        <img class="list_icon" src="../images/calendar.png" alt="event_icon"><br />
+                        <span class="list_text">Events</span>
+                    </a>
+                </li>
+                <li class="list_item">
+                    <a href="../notifications/notifications.html">
+                        <img class="list_icon" src="../images/notif.png" alt="notif_icon"><br />
+                        <span class="list_text">Notifications</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="container">
+            <div class="inbox_preview">
+                <!--add notif previews here-->
+            </div>
+        </div>
+
+        <div class="notif_full">
+            <span class="notif_focus">
+                <!--add full notifs here-->
+            </span>
+        </div>
+
+        <script src="notifications.js"></script>
+    </body>
+</html>

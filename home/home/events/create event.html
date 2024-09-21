@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="event.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create/edit event</title>
+</head>
+<body>
+    <div class="menu">
+        <ul class="list">
+            <li class="list_item">
+                <a href="../home.html">
+                    <img class="list_icon" src="../images/home.png" alt="home_icon"><br />
+                    <span class="list_text">Home</span>
+                </a>
+            </li>
+            <li class="list_item">
+                <a href="../profile/profile.html">
+                    <img class="list_icon" src="../images/user.png" alt="user_icon"><br />
+                    <span class="list_text">Profile</span>
+                </a>
+            </li>
+            <li class="list_item">
+                <a href="event.html">
+                    <img class="list_icon" src="../images/calendar.png" alt="event_icon"><br />
+                    <span class="list_text">Events</span>
+                </a>
+            </li>
+            <li class="list_item">
+                <a href="../notifications/notifications.html">
+                    <img class="list_icon" src="../images/notif.png" alt="notif_icon"><br />
+                    <span class="list_text">Notifications</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <h1>Create/edit event</h1>
+    <div class="container">
+        <form action="">
+            <input type="text" placeholder="Event Name:" id="name" maxlength="100" required />
+            <label for="name">Event Name</label>
+
+            <input type="text" placeholder="Event description:" id="description" required />
+            <label for="description">Event Name</label>
+
+            <input type="text" placeholder="location" id="location" required />
+            <label for="location">Location</label>
+        </form>
+    </div>
+
+    <div class="container">
+        <form id="Skills">
+            <label for="Skills">Select all applicable skills  </label>
+            <select id="Skills" name="Skills" multiple size="3" required>
+                <option value="bilingual">Bilingual</option>
+                <option value="cpr">Cpr Certified</option>
+                <option value="HS">High School Diploma or Equivalent</option>
+            </select>
+        </form>
+        <form id="UrgencyForm">
+            <select id="Urgency" name="Urgency" required>
+                <option value="" disabled selected>Select Urgency:</option>
+                <option value="low">Low</option>
+                <option value="medium">Medium</option>
+                <option value="High">High</option>
+            </select>
+    </div>
+
+    
+</body>
+</html>

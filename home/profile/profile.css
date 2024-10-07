@@ -224,3 +224,8 @@ html .form__label {
      click on the label, instead of the input field. That's bad UX! */
   pointer-events: none;
 }
+
+.dropdown-Label {
+  display: block;
+  margin-bottom: 1rem;
+}

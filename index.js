@@ -21,7 +21,7 @@ app.post('/login', (req, res) => {
 app.post('/registration', (req, res) => {
     const {parcel} = req.body;
     console.log(parcel.user);
-    if (parcel.user != "admin" && parcel.pass != "admin") { 
+    if (parcel.user != "admin") { 
         res.status(200).json({auth: 'valid'});
     }
     else {

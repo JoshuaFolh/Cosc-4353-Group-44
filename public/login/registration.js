@@ -31,5 +31,8 @@ async function register(e) {
             document.cookie = "logged_in=true; " + "expires=" + loginDuration.toGMTString() + "; path=/";
             window.location.href = "../home/home.html";
         }
+        else {
+            document.querySelectorAll(".form_message-error").forEach(x => x.style.display = "block"); //display error message
+        }
     })
 }

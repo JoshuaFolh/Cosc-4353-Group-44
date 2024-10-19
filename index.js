@@ -97,4 +97,30 @@ app.post('/registration', (req, res) => {
     }
 });
 
+app.post('/submit-profile', (req, res) => {
+    const profileData = {
+        fullName: req.body.fullName,
+        address1: req.body.address1,
+        address2: req.body.address2,
+        city: req.body.city,
+        zipCode: req.body.zipCode,
+        preference: req.body.preference,
+        stateSel: req.body.stateSel,
+        skills: req.body.skills, // This will be an array if multiple values are selected
+        availability: req.body.availability
+    };
+
+    // Log the profile data to the console (or save it to a database)
+    console.log(profileData);
+
+    // Store the data in a database (this is just an example)
+    // db.save(profileData); // Uncomment this line if using a database like MongoDB or MySQL
+
+    // Send a response back to the client
+    res.statusCode(200).JSON({status: 'good'});
+
+    // Optionally, you can redirect the user to another page:
+    // res.redirect('/thank-you');
+});
+
 app.listen(3000, () => console.log('App available on http://localhost:3000')); //tell the app to listen on port 3000

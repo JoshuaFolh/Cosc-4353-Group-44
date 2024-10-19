@@ -1,11 +1,30 @@
-function addNotif() {
+const baseURL = 'http://localhost:3000/';
+
+function addNotif(string) {
     const inbox = document.querySelector(".inbox_preview");
-    inbox.innerHTML += `<button class="notif_preview" type="button" onclick="update()"><span class="notif">
-    Lorem ipsum odor amet, consectetuer adipiscing elit. Vestibulum enim ex ipsum phasellus consectetur suspendisse. Duis dis libero enim eget proin. Dui natoque condimentum primis molestie donec risus. Lacinia blandit mus iaculis amet etiam gravida ridiculus. Interdum varius magnis sollicitudin lobortis ultrices magna cursus lectus. Lobortis sagittis arcu, placerat elit felis tellus. Taciti condimentum porta ac quam lacus sagittis dolor bibendum. Massa risus facilisi, lacus platea varius etiam. Nunc senectus placerat potenti natoque lectus nullam. Aenean blandit platea hendrerit sed commodo ligula. Lacinia posuere aliquet nulla turpis metus malesuada. Tristique inceptos parturient amet, quisque dapibus cubilia molestie fringilla? Mollis nibh urna fames nostra ullamcorper adipiscing maximus magnis. Taciti felis suspendisse et velit cras hac sociosqu nisl fames. Nunc sapien nostra enim lobortis sapien fringilla. In nisi velit conubia parturient vulputate aptent volutpat parturient.
-    </span></button>`;
+    inbox.innerHTML += '<button class="notif_preview" type="button" value="' + string + '" onclick="update(this.value)"><span class="notif">' +
+    string + '</span></button>';
 }
 
-function update() {
+function update(string) {
     const notif_focus = document.querySelector(".notif_focus");
-    notif_focus.innerText = "Lorem ipsum odor amet, consectetuer adipiscing elit. Vestibulum enim ex ipsum phasellus consectetur suspendisse. Duis dis libero enim eget proin. Dui natoque condimentum primis molestie donec risus. Lacinia blandit mus iaculis amet etiam gravida ridiculus. Interdum varius magnis sollicitudin lobortis ultrices magna cursus lectus. Lobortis sagittis arcu, placerat elit felis tellus. Taciti condimentum porta ac quam lacus sagittis dolor bibendum. Massa risus facilisi, lacus platea varius etiam. Nunc senectus placerat potenti natoque lectus nullam. Aenean blandit platea hendrerit sed commodo ligula. Lacinia posuere aliquet nulla turpis metus malesuada. Tristique inceptos parturient amet, quisque dapibus cubilia molestie fringilla? Mollis nibh urna fames nostra ullamcorper adipiscing maximus magnis. Taciti felis suspendisse et velit cras hac sociosqu nisl fames. Nunc sapien nostra enim lobortis sapien fringilla. In nisi velit conubia parturient vulputate aptent volutpat parturient.";
+    notif_focus.innerText = string;
+}
+
+const ele = document.querySelector(".button-add_notif");
+ele.addEventListener("click", add_notif);
+
+async function add_notif(e) { 
+    e.preventDefault(); 
+    const res = await fetch(baseURL + 'notifs_update', {
+        method: "GET",
+    }).then((response) => {
+        return response.json();
+    }).then((json) => {
+        for (let element of json.notifs) {
+            //console.log(element);
+            addNotif(element);
+        }
+    })
+
 }

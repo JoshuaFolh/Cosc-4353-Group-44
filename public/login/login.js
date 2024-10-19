@@ -11,13 +11,13 @@ const login_ele = document.getElementById('login_form');
 login_ele.addEventListener('submit', authenticate);
 
 async function authenticate(e) { 
-    e.preventDefault(); //prevent submit from doing its default behavior because it will normally refresh the page
-    var obj = { //object to store the user + pw
+    e.preventDefault(); 
+    var obj = { 
         user: username.value,
         pass: password.value
     };
 
-    const res = await fetch(baseURL, { //https://www.youtube.com/watch?v=5TxF9PQaq4U&list=LL&index=3
+    const res = await fetch(baseURL + 'login', { //https://www.youtube.com/watch?v=5TxF9PQaq4U&list=LL&index=3
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -32,7 +32,11 @@ async function authenticate(e) {
     }).then((json) => { //here we can use the JSON
         //we can also do this with text, so we could've returned response.text() previously
         //and then done .then((text)) => {} to work with the raw text
-        if (json.auth == "correct") { 
+        if (json.auth == "valid") { 
+            var sessionTimeout = 1; //hours
+            var loginDuration = new Date();
+            loginDuration.setTime(loginDuration.getTime() + (sessionTimeout*60*60*1000));
+            document.cookie = "logged_in=true; " + "expires=" + loginDuration.toGMTString() + "; path=/";
             window.location.href = "./home/home.html";
         }
         else {

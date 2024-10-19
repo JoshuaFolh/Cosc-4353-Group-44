@@ -12,8 +12,10 @@
   "description": "",
   "dependencies": {
     "body-parser": "^1.20.3",
+    "cors": "^2.8.5",
     "express": "^4.21.0",
     "express-validator": "^7.2.0",
+    "js-priority-queue": "^0.1.5",
     "password-validator": "^5.3.0"
   },
   "devDependencies": {

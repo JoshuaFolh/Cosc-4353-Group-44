@@ -97,6 +97,18 @@ app.post('/registration', (req, res) => {
     }
 });
 
+app.post('/submit-create event', (req, res) => {
+    const profileData = {
+        name: req.body.name,
+        description: req.body.description,
+        location: req.body.location,
+        skills: req.body.skills,
+        UrgencyForm: req.body.UrgencyForm
+    };
+    console.log(profileData);
+    res.statusCode(200).JSON({status: 'good'});
+})
+
 app.post('/submit-profile', (req, res) => {
     const profileData = {
         fullName: req.body.fullName,
@@ -114,13 +126,10 @@ app.post('/submit-profile', (req, res) => {
     console.log(profileData);
 
     // Store the data in a database (this is just an example)
-    // db.save(profileData); // Uncomment this line if using a database like MongoDB or MySQL
 
     // Send a response back to the client
     res.statusCode(200).JSON({status: 'good'});
 
-    // Optionally, you can redirect the user to another page:
-    // res.redirect('/thank-you');
 });
 
 app.listen(3000, () => console.log('App available on http://localhost:3000')); //tell the app to listen on port 3000

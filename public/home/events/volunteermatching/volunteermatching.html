@@ -7,10 +7,6 @@
         <link rel="stylesheet" href="volunteermatching.css">
     </head>
     <body>
-        <!--testing buttons, remove these later-->
-        <button class="button-add_volunteer" onclick="addVolunteer()">Add Volunteer</button>
-        <button class="button-add_event" onclick="addEvent()">Add Event</button>
-
         <h1 class="header_text">Volunteer Matching</h1>
 
         <form class="volunteer_lookup">
@@ -20,28 +16,24 @@
             </div>
             <button type="submit">Search</button>
         </form>
-
+        <!--
         <form class="event_lookup">
-            <!--<div class="form_message-error">No such event found</div>-->
+            <div class="form_message-error">No such event found</div>
             <div class="form_input">
-                <input type="text" class="form_input" id="username" required placeholder="Event name...">
+                <input type="text" class="form_input" id="eventname" required placeholder="Event name...">
             </div>
             <button type="submit">Search</button>
-        </form>
+        </form>-->
 
+        <div class="container">
+            <!--
+            <div class="volunteer_rect">
+                
+            </div>-->
 
-        <div class="volunteer_rect">
-            <div class="volunteer_item">
-                Volunteer Details
-                <!--
-                Name: <br />
-                Location: <br />
-                Skills: <br />-->
+            <div class="event_rect">
+                <!--add here-->
             </div>
-        </div>
-
-        <div class="event_rect">
-            <div class="event_item">Event Details</div>
         </div>
         
         <script src="volunteermatching.js"></script>

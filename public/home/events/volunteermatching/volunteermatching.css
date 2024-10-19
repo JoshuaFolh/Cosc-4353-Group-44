@@ -9,6 +9,7 @@ html body {
     text-align: center;
 }
 
+/*not being used currently*/
 .volunteer_rect {
     border: solid 2px black;
     width: 50vh;
@@ -25,14 +26,21 @@ html body {
     border: solid 2px black;
     width: 50vh;
     height: 70vh;
+    margin:auto;
+    /*
     position: absolute;
     top: 25vh;
-    right: 40vh;
+    right: 40vh;*/
     display: flex;
+    /*if event lookup comes back this will have to be uncentered*/
+    justify-content: center;
+    align-items: center;
+    /* *** */
     flex-direction: column;
     overflow-y: scroll;
 }
 
+/*not being used currently*/
 .volunteer_rect > .volunteer_item {
     content: "";
     border: solid 2px black;
@@ -60,15 +68,18 @@ html body {
 }
 
 .volunteer_lookup {
-    position: absolute;
-    top: 15vh;
-    left: 40vh;
+    height: 10vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 
 .form_input {
     padding: 5px 5px 5px 0px;
 }
 
+/*not in use currently*/
 .event_lookup {
     position: absolute;
     top: 15vh;

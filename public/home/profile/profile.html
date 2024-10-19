@@ -161,9 +161,30 @@
             multidate: true
         });
 
-        function gotoLink(link) {
-            window.location.href = link.value;
-        }
+        // Handle form submission with fetch
+        document.getElementById('profileForm').addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent default form submission
+
+            // Collect form data
+            const formData = new FormData(this);
+
+            // Send form data using fetch
+            fetch('/submit-profile', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(data => {
+                // Handle success
+                alert('Profile submitted successfully!');
+                console.log(data);
+            })
+            .catch(error => {
+                // Handle error
+                alert('Error submitting profile.');
+                console.error('Error:', error);
+            });
+        });
     </script>
 
 </body>

@@ -36,14 +36,16 @@ app.set('view engine', 'ejs');
 // Home route to serve static HTML file
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
+}); //now all files that are static do not have to have the parent directory public when being linked: ex. to link to home.html, the absolute path is "/home/home.html" instead of "/public/home/home.html"
 
 
 // Events route to render events dynamically
 app.get('/events', async (req, res) => {
     try {
       const events = await Event.find(); // Fetch all events from MongoDB
-      res.render('events', { events }); // Render events.ejs with event data
+      console.log('Retreived events:', events); //this is for debugging purposes: at the moment of push "Flawed event population", this outputs an empty array. I need to figure out why in order to make events.ejs work.
+      res.render('events', { events }); // Render events.ejs with event data  
+      //above line also makes it so that when linking to events.ejs the extension is removed; ie we link to /events.
     } catch (error) {
       console.error(error);
       res.status(500).send('Error retrieving events');
@@ -74,7 +76,7 @@ app.post('/find_events', (req, res) => {
     //return if user not found
     if (!found) {
         res.status(200).json({status: 'no such user found!'});
-    }
+    }//question from Joshua: because found is false by default, shouldn't the conditional be "if (found)" rather than "if (!found)"?
 
     //match to events
     //assign events points based on similarity in skills then add to pq

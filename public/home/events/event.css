@@ -21,7 +21,7 @@ html body h1 {
     margin: 15vh 0 2rem;
 }
 
-html body .container {
+html body .event_container {
     border: solid 2px black;
     width: 50%;
     display: flex;
@@ -147,3 +147,4 @@ html .form__input {
        click on the label, instead of the input field. That's bad UX! */
     pointer-events: none;
   }
+

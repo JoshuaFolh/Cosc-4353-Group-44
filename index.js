@@ -1,8 +1,10 @@
 const express = require('express'); 
-const app = express();
 const cors = require('cors');
 const pq = require('js-priority-queue');
 const PriorityQueue = require('js-priority-queue');
+const mongoose = require('mongoose');
+
+const app = express();
 app.use(cors());
 app.use(express.static('public')); 
 app.use(express.json());
@@ -11,9 +13,50 @@ app.get('/', (req, res) => {
     res.status(200).send('good');
 });
 
+mongoose.connect('mongodb://localhost:27017/yourDatabaseName', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+});
+
+const eventSchema = new mongoose.Schema({
+    name: String,
+    description: String,
+    location: String,
+    skills: String,
+    urgency: String,
+    date: String,
+});
+  
+const Event = mongoose.model('EventDetails', eventSchema);
+
+// Serve static files from the 'public' folder
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Set EJS as the templating engine only for dynamic pages
+app.set('view engine', 'ejs');
+
+// Home route to serve static HTML file
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+
+// Events route to render events dynamically
+app.get('/events', async (req, res) => {
+    try {
+      const events = await Event.find(); // Fetch all events from MongoDB
+      res.render('events', { events }); // Render events.ejs with event data
+    } catch (error) {
+      console.error(error);
+      res.status(500).send('Error retrieving events');
+    }
+  });
+
 app.get('/notifs_update', (req, res) => {
     res.status(200).json({notifs: ['THIS IS SAMPLE TEXT 1!', 'THIS IS SAMPLE TEXT 2!', 'THIS IS SAMPLE TEXT 3!']});
 });
+
+
 
 const volunteersJSON = JSON.parse('[{"name": "John Cena", "skills": ["Physical Work", "Acting"]}, {"name": "Confucius", "skills": ["Philosophy"]}]');
 const eventsJSON = JSON.parse('[{"name": "Park Cleanup", "skills": ["Physical Work", "Cleaning"]}, {"name": "Volunteer at Soup Kitchen", "skills": ["Cooking", "Cleaning"]}, {"name": "Debating the Morals and Ethics of Modernity and Society", "skills": ["Philosophy", "Public Speaking"]}]');

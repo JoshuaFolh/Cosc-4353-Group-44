@@ -1,4 +1,5 @@
 const express = require('express'); 
+const path = require('path');
 const cors = require('cors');
 const pq = require('js-priority-queue');
 const PriorityQueue = require('js-priority-queue');
@@ -13,10 +14,7 @@ app.get('/', (req, res) => {
     res.status(200).send('good');
 });
 
-mongoose.connect('mongodb://localhost:27017/yourDatabaseName', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-});
+mongoose.connect('mongodb://localhost:27017/Vol');
 
 const eventSchema = new mongoose.Schema({
     name: String,

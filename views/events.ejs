@@ -7,22 +7,54 @@
     <title>Event Management</title>
 </head>
 <body>
+
+    <div class="menu">
+        <ul class="list">
+            <li class="list_item">
+                <a href="home/home.html">
+                    <img class="list_icon" src="home/images/home.png" alt="home_icon"><br />
+                    <span class="list_text">Home</span>
+                </a>
+            </li>
+            <li class="list_item">
+                <a href="home/profile/profile.html">
+                    <img class="list_icon" src="home/images/user.png" alt="user_icon"><br />
+                    <span class="list_text">Profile</span>
+                </a>
+            </li>
+            <li class="list_item">
+                <a href="/events">
+                    <img class="list_icon" src="home/images/calendar.png" alt="event_icon"><br />
+                    <span class="list_text">Events</span>
+                </a>
+            </li>
+            <li class="list_item">
+                <a href="home/notifications/notifications.html">
+                    <img class="list_icon" src="home/images/notif.png" alt="notif_icon"><br />
+                    <span class="list_text">Notifications</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+
     <h1>Event Management</h1>
 
     <% events.forEach(event => { %>
         <div class="event_container">
-            <ul>
-                <li>Event Name: <%= event.name %></li>
-                <li><%= event.description %></li>
-                <li>Location: <%= event.location %></li>
-                <li>Required skills: <%= event.skills %></li>
-                <li>Urgency: <%= event.urgency %></li>
-                <li>Event Date: <%= event.date %></li>
-            </ul>
-            <a href="create event.html">Edit this event</a>
-        </div>
+        <ul>
+            <li>Event Name: <%= event.name %></li>
+            <li>Description: <%= event.description %></li>
+            <li>Location: <%= event.location %></li>
+            <li>Required skills: <%= event.skills %></li>
+            <li>Urgency: <%= event.urgency %></li>
+            <li>Event Date: <%= event.date %></li>
+        </ul>
+        <a href="/edit/<%= event._id %>">Edit this event</a> 
+        <!-- ! Link above does not work. -->
+    </div>
     <% }) %>
-
+    
     <h3><a href="/home/events/create event.html">Click here to create event</a></h3><br />
     <h4><a href="public/home/events/volunteermatching/volunteermatching.css">Match volunteers</a></h4>
 </body>

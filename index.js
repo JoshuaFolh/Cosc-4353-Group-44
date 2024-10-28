@@ -43,7 +43,6 @@ app.get('/', (req, res) => {
 app.get('/events', async (req, res) => {
     try {
       const events = await Event.find(); // Fetch all events from MongoDB
-      console.log('Retreived events:', events); //this is for debugging purposes: at the moment of push "Flawed event population", this outputs an empty array. I need to figure out why in order to make events.ejs work.
       res.render('events', { events }); // Render events.ejs with event data  
       //above line also makes it so that when linking to events.ejs the extension is removed; ie we link to /events.
     } catch (error) {

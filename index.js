@@ -124,18 +124,7 @@ app.post('/find_events', (req, res) => {
     res.status(200).json(resultJSON);
 });
 
-const userSchema = new mongoose.Schema({
-    username: {
-        type: String,
-        required: true
-    },
-    password: {
-        type: String,
-        required: true
-    }
-});
-
-const userCollection = new mongoose.model("userCollection", userSchema);
+const userCollection = require('./models/userModel.js');
 
 app.post('/login', async(req, res) => {
     const {parcel} = req.body;
@@ -145,7 +134,7 @@ app.post('/login', async(req, res) => {
         res.status(200).json({auth: 'valid'});
     }
     else {
-        res.status(200).json({auth: 'invalid'});
+        res.status(400).json({auth: 'invalid'});
     }
 });
 
@@ -155,7 +144,7 @@ app.post('/registration', async(req, res) => {
     const document = await userCollection.findOne({username: parcel.user});
     if (document) {
         //console.log('already in use');
-        res.status(200).json({auth: 'invalid'});
+        res.status(400).json({auth: 'invalid'});
     }
     else {
         //console.log('not already in use');
@@ -201,5 +190,7 @@ app.post('/submit-profile', (req, res) => {
     res.statusCode(200).JSON({status: 'good'});
 
 });
+
+module.exports = app;
 
 app.listen(3000, () => console.log('App available on http://localhost:3000')); //tell the app to listen on port 3000

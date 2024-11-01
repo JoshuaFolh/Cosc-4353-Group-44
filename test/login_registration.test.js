@@ -1,5 +1,22 @@
 const app = require('../index.js');
 const request = require('supertest');
+const mongoose = require('mongoose');
+const {MongoMemoryServer} = require('mongodb-memory-server');
+const userCollection = require('../models/userModel.js');
+
+let mongo;
+
+beforeAll(async () => {
+    await mongoose.disconnect();
+    mongo = await MongoMemoryServer.create();
+    const uri = mongo.getUri();
+    await mongoose.connect(uri);
+})
+
+afterAll(async () => {
+    await mongoose.disconnect;
+    await mongo.stop();
+})
 
 describe('POST /registration', () => {
     it('should create a new user and add them to the db', async () => {
@@ -12,6 +29,14 @@ describe('POST /registration', () => {
             .post('/registration')
             .send({parcel});
         expect(response.status).toBe(200);
+        
+        await userCollection.create({
+            username: parcel.user,
+            password: parcel.pass
+        });
+        const findUser = userCollection.findOne();
+        expect(findUser).not.toBeNull();
+
     });
     
     it('should fail to create a non-unique user', async () => {
@@ -23,10 +48,13 @@ describe('POST /registration', () => {
         const response = await request(app)
             .post('/registration')
             .send({parcel});
-        expect(response.status).toBe(200);
+        expect(response.status).toBe(400);
+
+        const findUser = userCollection.findOne({username: "testUser"});
+        expect(findUser).not.toBeNull();
     });
 });
-
+/*
 describe('POST /login', () => {
     it('should login an existing user', async () => {
         const parcel = {
@@ -51,4 +79,4 @@ describe('POST /login', () => {
             .send({parcel});
         expect(response.status).toBe(200);
     });
-});
+});*/

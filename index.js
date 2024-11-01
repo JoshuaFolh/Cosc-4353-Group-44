@@ -14,7 +14,13 @@ app.get('/', (req, res) => {
     res.status(200).send('good');
 });
 
-mongoose.connect('mongodb://localhost:27017/Vol');
+mongoose.connect("mongodb://localhost:27017/Vol")
+.then(() => {
+    console.log("mongodb connected");
+})
+.catch(() => {
+    console.log("failed");
+});
 
 const eventSchema = new mongoose.Schema({
     name: String,
@@ -76,6 +82,7 @@ app.post('/find_events', (req, res) => {
     if (!found) {
         res.status(200).json({status: 'no such user found!'});
     }//question from Joshua: because found is false by default, shouldn't the conditional be "if (found)" rather than "if (!found)"?
+    //^^^ 'found' gets set to true if the requested user (parcel.user) is found within the database of volunteers (represented by volunteersJSON)
 
     //match to events
     //assign events points based on similarity in skills then add to pq
@@ -117,10 +124,24 @@ app.post('/find_events', (req, res) => {
     res.status(200).json(resultJSON);
 });
 
-app.post('/login', (req, res) => {
+const userSchema = new mongoose.Schema({
+    username: {
+        type: String,
+        required: true
+    },
+    password: {
+        type: String,
+        required: true
+    }
+});
+
+const userCollection = new mongoose.model("userCollection", userSchema);
+
+app.post('/login', async(req, res) => {
     const {parcel} = req.body;
     //console.log(parcel.user);
-    if (parcel.user == "admin" && parcel.pass == "admin") { 
+    const document = await userCollection.findOne({username: parcel.user, password: parcel.pass});
+    if (document) {
         res.status(200).json({auth: 'valid'});
     }
     else {
@@ -128,14 +149,21 @@ app.post('/login', (req, res) => {
     }
 });
 
-app.post('/registration', (req, res) => {
+app.post('/registration', async(req, res) => {
     const {parcel} = req.body;
     //console.log(parcel.user);
-    if (parcel.user != "admin") { 
-        res.status(200).json({auth: 'valid'});
+    const document = await userCollection.findOne({username: parcel.user});
+    if (document) {
+        //console.log('already in use');
+        res.status(200).json({auth: 'invalid'});
     }
     else {
-        res.status(200).json({auth: 'invalid'});
+        //console.log('not already in use');
+        await userCollection.create({
+            username: parcel.user,
+            password: parcel.pass
+        });
+        res.status(200).json({auth: 'valid'});
     }
 });
 

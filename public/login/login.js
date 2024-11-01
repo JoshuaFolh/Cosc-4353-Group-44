@@ -25,13 +25,9 @@ async function authenticate(e) {
         body: JSON.stringify({
             parcel: obj
         })
-    }).then((response) => { //he doesn't go over this in the video
-        //basically the fetch() function returns a "response stream"
-        //this is NOT the same as a JSON. we have to return response.json() to be able to access the JSON
+    }).then((response) => { 
         return response.json();
-    }).then((json) => { //here we can use the JSON
-        //we can also do this with text, so we could've returned response.text() previously
-        //and then done .then((text)) => {} to work with the raw text
+    }).then((json) => { 
         if (json.auth == "valid") { 
             var sessionTimeout = 1; //hours
             var loginDuration = new Date();

@@ -28,8 +28,8 @@ async function register(e) {
             var sessionTimeout = 1; //hours
             var loginDuration = new Date();
             loginDuration.setTime(loginDuration.getTime() + (sessionTimeout*60*60*1000));
-            document.cookie = "logged_in=true; " + "expires=" + loginDuration.toGMTString() + "; path=/";
-            window.location.href = "../home/home.html";
+            //document.cookie = "logged_in=true; " + "expires=" + loginDuration.toGMTString() + "; path=/";
+            window.location.href = "../../index.html";
         }
         else {
             document.querySelectorAll(".form_message-error").forEach(x => x.style.display = "block"); //display error message

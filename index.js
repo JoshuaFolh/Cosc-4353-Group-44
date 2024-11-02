@@ -8,11 +8,14 @@ const mongoose = require('mongoose');
 
 const app = express();
 app.use(cors());
-app.use(express.static('public')); 
 app.use(express.json());
-app.use(cookieParser());
-
-let CURRENTUSER;
+app.use(express.urlencoded({ extended: true }));
+app.use(session({
+  secret: 'your-secret-key',
+  resave: false,
+  saveUninitialized: false
+}));
+app.use(express.static('public')); 
 
 app.get('/', (req, res) => {
     res.status(200).send('good');
@@ -60,6 +63,20 @@ app.get('/events', async (req, res) => {
       res.status(500).send('Error retrieving events');
     }
   });
+
+  app.get('/redirect-to-event', (req, res) => {
+    if (!req.session.user) {
+      return res.redirect('/login/login.html');  // Redirect to login if no user is in session
+    }
+  
+    if (req.session.user.isAdmin) {res.redirect('/event-manager');}  // Admin view
+    else {res.redirect('/event-signup');}  // Regular user view
+  });
+  
+  // Rendering for EJS views
+  app.get('/event-manager', (req, res) => res.render('event_manager'));
+  app.get('/event-signup', (req, res) => res.render('event_signup'));
+  
 
 app.get('/notifs_update', (req, res) => {
     res.status(200).json({notifs: ['THIS IS SAMPLE TEXT 1!', 'THIS IS SAMPLE TEXT 2!', 'THIS IS SAMPLE TEXT 3!']});

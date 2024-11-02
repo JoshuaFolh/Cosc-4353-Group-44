@@ -1,8 +1,17 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const multer = require('multer');
+const baseURL = 'http://localhost:3000/';
 
-reg_ele.addEventListener('submit', profile_change);
+const fullName = document.getElementById('Full Name');
+const address1 = document.getElementById('Address 1');
+const address2 = document.getElementById('Address 2');
+const city = document.getElementById('City');
+const zipCode = document.getElementById('Zip Code');
+const preference = document.getElementById('Preference');
+const stateSel = document.getElementById('StateSel');
+const skills = document.getElementById('Skills');
+const availability = document.getElementById('availability');
+
+const reg_ele = document.getElementById('subBtn');
+reg_ele.addEventListener('click', profile_change);
 
 async function profile_change(e) { 
     e.preventDefault(); 
@@ -17,6 +26,7 @@ async function profile_change(e) {
         skills: skills.value, // This will be an array if multiple values are selected
         availability: availability.value
     };
+    //console.log(fullName.value);
 
     const res = await fetch(baseURL + 'profile', {
         method: "POST",
@@ -29,11 +39,13 @@ async function profile_change(e) {
     }).then((response) => {
         return response.json();
     }).then((json) => { 
-        if (json.auth == "valid") { 
-            window.location.href = 'public\home\profile\profile.html';
+        if (json.status == "good") { 
+            //window.location.href = 'public\home\profile\profile.html';
+            console.log(success);
         }
         else {
-            document.querySelectorAll(".form_message-error").forEach(x => x.style.display = "block"); //display error message
+            //document.querySelectorAll(".form_message-error").forEach(x => x.style.display = "block"); //display error message
+            console.log(failure);
         }
     })
 }

@@ -144,6 +144,8 @@ app.post('/login', async(req, res) => {
         crypto.pbkdf2(parcel.pass, salt, 100, 16, 'sha256', (err, key) => {
             if (err) { throw err; }
             if (userHash == key) {
+                CURRENTUSER = document;
+                //CURRENTUSER.save();
                 res.status(200).json({auth: 'valid'});
             }
             else {
@@ -177,7 +179,8 @@ app.post('/registration', async(req, res) => {
                 username: parcel.user,
                 salt: salt,
                 hash: key,
-                isAdmin: false
+                isAdmin: false,
+                details: {}
             });
         })
         res.status(200).json({auth: 'valid'});
@@ -193,32 +196,35 @@ app.post('/submit-create event', (req, res) => {
         UrgencyForm: req.body.UrgencyForm
     };
     console.log(profileData);
-    res.statusCode(200).JSON({status: 'good'});
+    res.statusCode(200).json({status: 'good'});
 })
 
-const userDetails = require('./models/userDetailsModel.js');
-
-app.post('/submit-profile', (req, res) => {
-    const profileData = {
-        fullName: req.body.fullName,
-        address1: req.body.address1,
-        address2: req.body.address2,
-        city: req.body.city,
-        zipCode: req.body.zipCode,
-        preference: req.body.preference,
-        stateSel: req.body.stateSel,
-        skills: req.body.skills, // This will be an array if multiple values are selected
-        availability: req.body.availability
+app.post('/profile', async(req, res) => {
+    const {parcel} = req.body;
+    const profileData =
+    {
+        fullName: parcel.fullName,
+        address1: parcel.address1,
+        address2: parcel.address2,
+        city: parcel.city,
+        zipCode: parcel.zipCode,
+        preference: parcel.preference,
+        stateSel: parcel.stateSel,
+        skills: parcel.skills, // This will be an array if multiple values are selected
+        availability: parcel.availability
     };
 
-    // Log the profile data to the console (or save it to a database)
-    console.log(profileData);
+    CURRENTUSER.details.fullname = profileData.fullName;
+    CURRENTUSER.details.address1 = profileData.address1;
+    CURRENTUSER.details.address2 = profileData.address2;
+    CURRENTUSER.details.city = profileData.city;
+    CURRENTUSER.details.zipcode = profileData.zipcode;
+    CURRENTUSER.details.preference = profileData.preference;
+    CURRENTUSER.details.state = profileData.state;
+    CURRENTUSER.details.skills = profileData.skills;
+    CURRENTUSER.details.availability = profileData.availability;
 
-    // Store the data in a database (this is just an example)
-
-    // Send a response back to the client
-    res.statusCode(200).JSON({status: 'good'});
-
+    res.status(200).json({status: 'good'});
 });
 
 module.exports = app;

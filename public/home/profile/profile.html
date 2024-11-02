@@ -148,13 +148,13 @@
         <label for="availability">Availability:</label>
         <input type="text" id="availability" name="availability" class="datepicker-input" required>
         <br><br>
-        <button type="submit">Submit</button>
+        <button type="button" id="subBtn">Submit</button>
     </form>
     <br />
     <button type="button" onclick="gotoLink(this)" value="volHist.html">Volunteer History</button>
 
 
-    <script>
+    <script src="profile.js">
         // Initialize datepicker with multi-date selection
         $('#availability').datepicker({
             format: "mm/dd/yyyy",

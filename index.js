@@ -1,4 +1,5 @@
 const express = require('express'); 
+const cookieParser = require('cookie-parser');
 const path = require('path');
 const cors = require('cors');
 const PriorityQueue = require('js-priority-queue');
@@ -9,6 +10,9 @@ const app = express();
 app.use(cors());
 app.use(express.static('public')); 
 app.use(express.json());
+app.use(cookieParser());
+
+let CURRENTUSER;
 
 app.get('/', (req, res) => {
     res.status(200).send('good');
@@ -61,10 +65,14 @@ app.get('/notifs_update', (req, res) => {
     res.status(200).json({notifs: ['THIS IS SAMPLE TEXT 1!', 'THIS IS SAMPLE TEXT 2!', 'THIS IS SAMPLE TEXT 3!']});
 });
 
-
-
 const volunteersJSON = JSON.parse('[{"name": "John Cena", "skills": ["Physical Work", "Acting"]}, {"name": "Confucius", "skills": ["Philosophy"]}]');
 const eventsJSON = JSON.parse('[{"name": "Park Cleanup", "skills": ["Physical Work", "Cleaning"]}, {"name": "Volunteer at Soup Kitchen", "skills": ["Cooking", "Cleaning"]}, {"name": "Debating the Morals and Ethics of Modernity and Society", "skills": ["Philosophy", "Public Speaking"]}]');
+
+//let eventsJSON;
+/*await Event.find()
+.then(res => {
+    eventsJSON = res.toJSON();
+})*/
 
 app.post('/find_events', (req, res) => {
     const {parcel} = req.body;
@@ -124,7 +132,7 @@ app.post('/find_events', (req, res) => {
     res.status(200).json(resultJSON);
 });
 
-const userCollection = require('./models/userModel.js');
+const userCollection = require('./models/userCredModel.js');
 
 app.post('/login', async(req, res) => {
     const {parcel} = req.body;
@@ -160,13 +168,14 @@ app.post('/registration', async(req, res) => {
         const salt = buf.toString('base64');
         //only 100 iterations because the unit tests break otherwise
         //and i will tear my hair out if i have to troubleshoot this for any longer
-        //just switch between 100/100000 depending on whether or not it is actually being used normally or by Jest
+        //just switch between 100000/100 depending on whether or not it is actually being used normally or by Jest
         crypto.pbkdf2(parcel.pass, salt, 100, 16, 'sha256', async(err, key) => {
             if (err) { throw err; }
             await userCollection.create({
                 username: parcel.user,
                 salt: salt,
-                hash: key
+                hash: key,
+                isAdmin: false
             });
         })
         res.status(200).json({auth: 'valid'});
@@ -184,6 +193,8 @@ app.post('/submit-create event', (req, res) => {
     console.log(profileData);
     res.statusCode(200).JSON({status: 'good'});
 })
+
+const userDetails = require('./models/userDetailsModel.js');
 
 app.post('/submit-profile', (req, res) => {
     const profileData = {

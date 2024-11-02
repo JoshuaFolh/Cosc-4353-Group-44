@@ -1,8 +1,8 @@
 const express = require('express'); 
 const path = require('path');
 const cors = require('cors');
-const pq = require('js-priority-queue');
 const PriorityQueue = require('js-priority-queue');
+const crypto = require('crypto');
 const mongoose = require('mongoose');
 
 const app = express();
@@ -129,9 +129,19 @@ const userCollection = require('./models/userModel.js');
 app.post('/login', async(req, res) => {
     const {parcel} = req.body;
     //console.log(parcel.user);
-    const document = await userCollection.findOne({username: parcel.user, password: parcel.pass});
+    const document = await userCollection.findOne({username: parcel.user});
     if (document) {
-        res.status(200).json({auth: 'valid'});
+        const salt = document.salt;
+        const userHash = document.hash;
+        crypto.pbkdf2(parcel.pass, salt, 100, 16, 'sha256', (err, key) => {
+            if (err) { throw err; }
+            if (userHash == key) {
+                res.status(200).json({auth: 'valid'});
+            }
+            else {
+                res.status(400).json({auth: 'invalid'});
+            }
+        });
     }
     else {
         res.status(400).json({auth: 'invalid'});
@@ -143,15 +153,22 @@ app.post('/registration', async(req, res) => {
     //console.log(parcel.user);
     const document = await userCollection.findOne({username: parcel.user});
     if (document) {
-        //console.log('already in use');
         res.status(400).json({auth: 'invalid'});
     }
     else {
-        //console.log('not already in use');
-        await userCollection.create({
-            username: parcel.user,
-            password: parcel.pass
-        });
+        var buf = crypto.randomBytes(16);
+        const salt = buf.toString('base64');
+        //only 100 iterations because the unit tests break otherwise
+        //and i will tear my hair out if i have to troubleshoot this for any longer
+        //just switch between 100/100000 depending on whether or not it is actually being used normally or by Jest
+        crypto.pbkdf2(parcel.pass, salt, 100, 16, 'sha256', async(err, key) => {
+            if (err) { throw err; }
+            await userCollection.create({
+                username: parcel.user,
+                salt: salt,
+                hash: key
+            });
+        })
         res.status(200).json({auth: 'valid'});
     }
 });

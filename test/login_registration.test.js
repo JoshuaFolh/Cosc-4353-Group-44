@@ -30,10 +30,6 @@ describe('POST /registration', () => {
             .send({parcel});
         expect(response.status).toBe(200);
         
-        await userCollection.create({
-            username: parcel.user,
-            password: parcel.pass
-        });
         const findUser = userCollection.findOne();
         expect(findUser).not.toBeNull();
 
@@ -54,7 +50,7 @@ describe('POST /registration', () => {
         expect(findUser).not.toBeNull();
     });
 });
-/*
+
 describe('POST /login', () => {
     it('should login an existing user', async () => {
         const parcel = {
@@ -70,13 +66,13 @@ describe('POST /login', () => {
     
     it('should fail to login a nonexistent user', async () => {
         const parcel = {
-            user: "testUser",
-            pass: "testPass"
+            user: "testUser1",
+            pass: "testPass2"
         };
 
         const response = await request(app)
             .post('/login')
             .send({parcel});
-        expect(response.status).toBe(200);
+        expect(response.status).toBe(400);
     });
-});*/
+});

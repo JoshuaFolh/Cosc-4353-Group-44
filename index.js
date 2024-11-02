@@ -10,16 +10,17 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(session({
-  secret: 'your-secret-key',
-  resave: false,
-  saveUninitialized: false
-}));
 app.use(express.static('public')); 
 
 app.get('/', (req, res) => {
     res.status(200).send('good');
 });
+
+let CURRENTUSER;
+
+app.setCurrentUser = (user_document) => {
+    CURRENTUSER = user_document;
+};
 
 mongoose.connect("mongodb://localhost:27017/Vol")
 .then(() => {
@@ -28,6 +29,9 @@ mongoose.connect("mongodb://localhost:27017/Vol")
 .catch(() => {
     console.log("failed");
 });
+
+const userCollection = require('./models/userCredModel.js');
+const { profile } = require('console');
 
 const eventSchema = new mongoose.Schema({
     name: String,
@@ -82,16 +86,10 @@ app.get('/notifs_update', (req, res) => {
     res.status(200).json({notifs: ['THIS IS SAMPLE TEXT 1!', 'THIS IS SAMPLE TEXT 2!', 'THIS IS SAMPLE TEXT 3!']});
 });
 
-const volunteersJSON = JSON.parse('[{"name": "John Cena", "skills": ["Physical Work", "Acting"]}, {"name": "Confucius", "skills": ["Philosophy"]}]');
+//const volunteersJSON = JSON.parse('[{"name": "John Cena", "skills": ["Physical Work", "Acting"]}, {"name": "Confucius", "skills": ["Philosophy"]}]');
 const eventsJSON = JSON.parse('[{"name": "Park Cleanup", "skills": ["Physical Work", "Cleaning"]}, {"name": "Volunteer at Soup Kitchen", "skills": ["Cooking", "Cleaning"]}, {"name": "Debating the Morals and Ethics of Modernity and Society", "skills": ["Philosophy", "Public Speaking"]}]');
 
-//let eventsJSON;
-/*await Event.find()
-.then(res => {
-    eventsJSON = res.toJSON();
-})*/
-
-app.post('/find_events', (req, res) => {
+app.post('/find_events', async(req, res) => {
     const {parcel} = req.body;
     //check if user exists
     let found = false;
@@ -108,6 +106,19 @@ app.post('/find_events', (req, res) => {
         res.status(200).json({status: 'no such user found!'});
     }//question from Joshua: because found is false by default, shouldn't the conditional be "if (found)" rather than "if (!found)"?
     //^^^ 'found' gets set to true if the requested user (parcel.user) is found within the database of volunteers (represented by volunteersJSON)
+
+    /*
+    let eventsJSON;
+    await Event.find()
+    .then(res => {
+        eventsJSON = res.toJSON();
+    })*/
+    let volunteersJSON;
+    await userCollection.find()
+    .then(res => {
+        volunteersJSON = res.toJSON();
+    })
+    console.log(volunteersJSON);
 
     //match to events
     //assign events points based on similarity in skills then add to pq
@@ -148,8 +159,6 @@ app.post('/find_events', (req, res) => {
 
     res.status(200).json(resultJSON);
 });
-
-const userCollection = require('./models/userCredModel.js');
 
 app.post('/login', async(req, res) => {
     const {parcel} = req.body;
@@ -219,7 +228,7 @@ app.post('/submit-create event', (req, res) => {
 app.post('/profile', async(req, res) => {
     const {parcel} = req.body;
     const profileData =
-    {
+    {   
         fullName: parcel.fullName,
         address1: parcel.address1,
         address2: parcel.address2,
@@ -247,3 +256,12 @@ app.post('/profile', async(req, res) => {
 module.exports = app;
 
 app.listen(3000, () => console.log('App available on http://localhost:3000')); //tell the app to listen on port 3000
+
+//https://stackoverflow.com/questions/54422849/jest-testing-multiple-test-file-port-3000-already-in-use
+//USE WHEN RUNNING UNIT TESTS TO USE PORTS OTHER THAN 3000
+
+/*
+if (process.env.NODE_ENV !== 'test') {
+    app.listen(port, () => console.log('Listening on port ${port}'));
+}
+*/

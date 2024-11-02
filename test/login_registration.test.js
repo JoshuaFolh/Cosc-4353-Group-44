@@ -2,7 +2,7 @@ const app = require('../index.js');
 const request = require('supertest');
 const mongoose = require('mongoose');
 const {MongoMemoryServer} = require('mongodb-memory-server');
-const userCollection = require('../models/userCredModel.js');
+const testUserCollection = require('../models/userCredModel.js');
 
 let mongo;
 
@@ -30,7 +30,7 @@ describe('POST /registration', () => {
             .send({parcel});
         expect(response.status).toBe(200);
         
-        const findUser = userCollection.findOne();
+        const findUser = testUserCollection.findOne();
         expect(findUser).not.toBeNull();
     });
     
@@ -45,7 +45,7 @@ describe('POST /registration', () => {
             .send({parcel});
         expect(response.status).toBe(400);
 
-        const findUser = userCollection.findOne({username: "testUser"});
+        const findUser = testUserCollection.findOne({username: "testUser"});
         expect(findUser).not.toBeNull();
     });
 });

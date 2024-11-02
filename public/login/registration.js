@@ -22,9 +22,6 @@ async function register(e) {
         return response.json();
     }).then((json) => { 
         if (json.auth == "valid") { 
-            //at this point the new user should be added to the db
-            //and then redirected to the login page
-            //but we have no db so they will just be logged in
             var sessionTimeout = 1; //hours
             var loginDuration = new Date();
             loginDuration.setTime(loginDuration.getTime() + (sessionTimeout*60*60*1000));

@@ -30,10 +30,6 @@ async function profile_change(e) {
         return response.json();
     }).then((json) => { 
         if (json.auth == "valid") { 
-            var sessionTimeout = 1; //hour
-            var loginDuration = new Date();
-            loginDuration.setTime(loginDuration.getTime() + (sessionTimeout*60*60*1000));
-            document.cookie = "profile_change=true; " + "expires=" + loginDuration.toGMTString() + "; path=/";
             window.location.href = 'public\home\profile\profile.html';
         }
         else {

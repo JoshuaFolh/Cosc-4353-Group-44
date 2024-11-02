@@ -2,7 +2,7 @@ const app = require('../index.js');
 const request = require('supertest');
 const mongoose = require('mongoose');
 const {MongoMemoryServer} = require('mongodb-memory-server');
-const userCollection = require('../models/userModel.js');
+const userCollection = require('../models/userCredModel.js');
 
 let mongo;
 

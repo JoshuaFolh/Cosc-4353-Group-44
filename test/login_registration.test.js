@@ -32,7 +32,6 @@ describe('POST /registration', () => {
         
         const findUser = userCollection.findOne();
         expect(findUser).not.toBeNull();
-
     });
     
     it('should fail to create a non-unique user', async () => {

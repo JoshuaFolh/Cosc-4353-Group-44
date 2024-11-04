@@ -31,9 +31,11 @@ describe('POST /registration', () => {
         expect(response.status).toBe(200);
         
         const findUser = testUserCollection.findOne();
+        //console.log(findUser);
         expect(findUser).not.toBeNull();
     });
     
+    //--runInBand prevents database competition
     it('should fail to create a non-unique user', async () => {
         const parcel = {
             user: "testUser",

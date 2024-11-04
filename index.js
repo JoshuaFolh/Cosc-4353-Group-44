@@ -188,8 +188,7 @@ app.post('/login', async(req, res) => {
 app.post('/registration', async(req, res) => {
     const {parcel} = req.body;
     //console.log(parcel.user);
-    //const test = userCollection.findOne();
-    //console.log(test);
+
     const document = await userCollection.findOne({username: parcel.user});
     if (document) {
         res.status(400).json({auth: 'invalid'});

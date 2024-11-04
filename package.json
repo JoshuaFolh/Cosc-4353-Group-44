@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon server.js",
-    "test": "jest --coverage --no-cache",
+    "test": "jest --coverage --no-cache --runInBand",
     "coverage": "nyc npm run test",
     "nyc": "nyc"
   },

@@ -13,10 +13,6 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(express.static('public')); 
 
-app.get('/', (req, res) => {
-    res.status(200).send('good');
-});
-
 let CURRENTUSER;
 
 app.setCurrentUser = (user_document) => {
@@ -87,7 +83,7 @@ app.get('/notifs_update', (req, res) => {
     res.status(200).json({notifs: ['THIS IS SAMPLE TEXT 1!', 'THIS IS SAMPLE TEXT 2!', 'THIS IS SAMPLE TEXT 3!']});
 });
 
-//const volunteersJSON = JSON.parse('[{"name": "John Cena", "skills": ["Physical Work", "Acting"]}, {"name": "Confucius", "skills": ["Philosophy"]}]');
+const volunteersJSON = JSON.parse('[{"name": "John Cena", "skills": ["Physical Work", "Acting"]}, {"name": "Confucius", "skills": ["Philosophy"]}]');
 const eventsJSON = JSON.parse('[{"name": "Park Cleanup", "skills": ["Physical Work", "Cleaning"]}, {"name": "Volunteer at Soup Kitchen", "skills": ["Cooking", "Cleaning"]}, {"name": "Debating the Morals and Ethics of Modernity and Society", "skills": ["Philosophy", "Public Speaking"]}]');
 
 app.post('/find_events', async(req, res) => {
@@ -101,14 +97,14 @@ app.post('/find_events', async(req, res) => {
     await Event.find()
     .then(res => {
         eventsJSON = res.toJSON();
-    })*/
+    })
     let volunteersJSON;
     await userCollection.find()
     .then(res => {
         volunteersJSON = res.toJSON();
     })
-    console.log(volunteersJSON);
-    
+    console.log(volunteersJSON);*/
+
     for (const i in volunteersJSON) {
         if (volunteersJSON[i].name == parcel.user) {
             found = true;
@@ -117,49 +113,52 @@ app.post('/find_events', async(req, res) => {
     }
 
     //return if user not found
-    if (!found) {
-        res.status(200).json({status: 'no such user found!'});
-    }//question from Joshua: because found is false by default, shouldn't the conditional be "if (found)" rather than "if (!found)"?
-    //^^^ 'found' gets set to true if the requested user (parcel.user) is found within the database of volunteers (represented by volunteersJSON)
+    if (found == false) {
+        //console.log("NOT FOUND");
+        res.status(400).json({status: 'no such user found!'});
+    }
 
-    //match to events
-    //assign events points based on similarity in skills then add to pq
-    const compareNums = function(a, b) {return b.points-a.points;};
-    const pq = new PriorityQueue({comparator: compareNums});
-    const volunteerSkills = volunteersJSON[idx].skills;
-    for (const i in eventsJSON) {
-        let event = {
-            json: '{"name": ' + JSON.stringify(eventsJSON[i].name) + ', "skills": ' + JSON.stringify(eventsJSON[i].skills) + '}',
-            id: i,
-            points: 0
-        };
-        //console.log(eventsJSON[i]);
-        for (const vol_skill of volunteerSkills) {
-            //console.log(vol_skill);
-            for (const j in eventsJSON[i].skills) {
-                //console.log(eventsJSON[i].skills[j]);
-                if (vol_skill == eventsJSON[i].skills[j]) {
-                    //console.log(vol_skill, eventsJSON[i].skills[j]);
-                    event.points++;
-                    //add points for location, time, etc
+    else {
+        //match to events
+        //assign events points based on similarity in skills then add to pq
+        const compareNums = function(a, b) {return b.points-a.points;};
+        const pq = new PriorityQueue({comparator: compareNums});
+        const volunteerSkills = volunteersJSON[idx].skills;
+        for (const i in eventsJSON) {
+            let event = {
+                json: '{"name": ' + JSON.stringify(eventsJSON[i].name) + ', "skills": ' + JSON.stringify(eventsJSON[i].skills) + '}',
+                id: i,
+                points: 0
+            };
+            //console.log(eventsJSON[i]);
+            for (const vol_skill of volunteerSkills) {
+                //console.log(vol_skill);
+                for (const j in eventsJSON[i].skills) {
+                    //console.log(eventsJSON[i].skills[j]);
+                    if (vol_skill == eventsJSON[i].skills[j]) {
+                        //console.log(vol_skill, eventsJSON[i].skills[j]);
+                        event.points++;
+                        //add points for location, time, etc
+                    }
                 }
             }
+            pq.queue(event);
         }
-        pq.queue(event);
-    }
 
-    //dump pq into resultJSON
-    let result = "[";
-    while (pq.length > 0) {
-        result += pq.dequeue().json;
-        if (pq.length > 0) {
-            result += ',';
+        //dump pq into resultJSON
+        let result = "[";
+        while (pq.length > 0) {
+            result += pq.dequeue().json;
+            if (pq.length > 0) {
+                result += ',';
+            }
         }
-    }
-    result += ']';
-    const resultJSON = JSON.parse(result);
+        result += ']';
+        const resultJSON = JSON.parse(result);
+        //console.log(resultJSON);
 
-    res.status(200).json(resultJSON);
+        res.status(200).json(resultJSON);
+    }
 });
 
 app.post('/login', async(req, res) => {

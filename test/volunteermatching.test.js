@@ -1,22 +1,22 @@
 const app = require('../index.js');
 const request = require('supertest');
-//const mongoose = require('mongoose');
+const mongoose = require('mongoose');
 //const {MongoMemoryServer} = require('mongodb-memory-server');
 //const testUserCollection = require('../models/userCredModel.js');
-/*
-let mongo;
+
+//let mongo;
 
 beforeAll(async () => {
     await mongoose.disconnect();
-    mongo = await MongoMemoryServer.create();
-    const uri = mongo.getUri();
-    await mongoose.connect(uri);
+    //mongo = await MongoMemoryServer.create();
+    //const uri = mongo.getUri();
+    //await mongoose.connect(uri);
 })
 
 afterAll(async () => {
     await mongoose.disconnect();
-    await mongo.stop();
-})*/
+    //await mongo.stop();
+})
 
 describe('POST /find_events', () => {
     it('should match users to events based on their skills', async () => {

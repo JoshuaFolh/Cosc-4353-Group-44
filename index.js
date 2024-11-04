@@ -95,18 +95,6 @@ app.post('/find_events', async(req, res) => {
     //check if user exists
     let found = false;
     let idx;
-    for (const i in volunteersJSON) {
-        if (volunteersJSON[i].name == parcel.user) {
-            found = true;
-            idx = i;
-        }
-    }
-
-    //return if user not found
-    if (!found) {
-        res.status(200).json({status: 'no such user found!'});
-    }//question from Joshua: because found is false by default, shouldn't the conditional be "if (found)" rather than "if (!found)"?
-    //^^^ 'found' gets set to true if the requested user (parcel.user) is found within the database of volunteers (represented by volunteersJSON)
 
     /*
     let eventsJSON;
@@ -120,6 +108,19 @@ app.post('/find_events', async(req, res) => {
         volunteersJSON = res.toJSON();
     })
     console.log(volunteersJSON);
+    
+    for (const i in volunteersJSON) {
+        if (volunteersJSON[i].name == parcel.user) {
+            found = true;
+            idx = i;
+        }
+    }
+
+    //return if user not found
+    if (!found) {
+        res.status(200).json({status: 'no such user found!'});
+    }//question from Joshua: because found is false by default, shouldn't the conditional be "if (found)" rather than "if (!found)"?
+    //^^^ 'found' gets set to true if the requested user (parcel.user) is found within the database of volunteers (represented by volunteersJSON)
 
     //match to events
     //assign events points based on similarity in skills then add to pq
@@ -187,9 +188,9 @@ app.post('/login', async(req, res) => {
 
 app.post('/registration', async(req, res) => {
     const {parcel} = req.body;
-    console.log(parcel.user);
-    const test = userCollection.findOne();
-    console.log(test);
+    //console.log(parcel.user);
+    //const test = userCollection.findOne();
+    //console.log(test);
     const document = await userCollection.findOne({username: parcel.user});
     if (document) {
         res.status(400).json({auth: 'invalid'});
@@ -198,8 +199,9 @@ app.post('/registration', async(req, res) => {
         var buf = crypto.randomBytes(16);
         const salt = buf.toString('base64');
         //only 100 iterations because the unit tests break otherwise
+        //even increasing jest's auto-timeout doesnt fix it
         //and i will tear my hair out if i have to troubleshoot this for any longer
-        //just switch between 100000/100 depending on whether or not it is actually being used normally or by Jest
+        //just switch between 100000/100 depending on whether or not it is actually being used normally or by jest
         crypto.pbkdf2(parcel.pass, salt, 100, 16, 'sha256', async(err, key) => {
             if (err) { throw err; }
             await userCollection.create({
@@ -256,13 +258,12 @@ app.post('/profile', async(req, res) => {
 
 module.exports = app;
 
-app.listen(3000, () => console.log('App available on http://localhost:3000')); //tell the app to listen on port 3000
+//app.listen(3000, () => console.log('App available on http://localhost:3000')); //tell the app to listen on port 3000
 
 //https://stackoverflow.com/questions/54422849/jest-testing-multiple-test-file-port-3000-already-in-use
 //USE WHEN RUNNING UNIT TESTS TO USE PORTS OTHER THAN 3000
 
-/*
+
 if (process.env.NODE_ENV !== 'test') {
     app.listen(port, () => console.log('Listening on port ${port}'));
 }
-*/

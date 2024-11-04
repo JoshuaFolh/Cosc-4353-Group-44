@@ -46,7 +46,7 @@ describe('POST /profile', () => {
             .post('/profile')
             .send({parcel});
         expect(response.status).toBe(200);
-        console.log(CURRENTUSER);
-        expect(CURRENTUSER.details.fullname).toBe("test");
+        //console.log(CURRENTUSER);
+        expect(CURRENTUSER.details.skills[0]).toBe("test");
     });
 });

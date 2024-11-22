@@ -41,11 +41,11 @@ async function profile_change(e) {
     }).then((json) => { 
         if (json.status == "good") { 
             //window.location.href = 'public\home\profile\profile.html';
-            console.log(success);
+            console.log("profile success");
         }
         else {
             //document.querySelectorAll(".form_message-error").forEach(x => x.style.display = "block"); //display error message
-            console.log(failure);
+            console.log("profile failure");
         }
     })
 }

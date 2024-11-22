@@ -36,14 +36,11 @@ const eventSchema = new mongoose.Schema({
     urgency: String,
     date: String,
 });
-
 const Event = mongoose.model('EventDetails', eventSchema);
 
-// Serve static files from the 'public' folder
-app.use(express.static(path.join(__dirname, 'public')));
+app.set('view engine', 'ejs'); // Set EJS as the templating engine only for dynamic pages
+app.use(express.static(path.join(__dirname, 'public'))); // Serve static files from the 'public' folder
 
-// Set EJS as the templating engine only for dynamic pages
-app.set('view engine', 'ejs');
 
 // Home route to serve static HTML file
 app.get('/', (req, res) => {
@@ -72,16 +69,27 @@ app.post('/login', async (req, res) => {
         res.status(400).json({ auth: 'invalid' });
     }
 });
+//events debugger: comment me.
+// app.get('/event-manager', async (req, res) => {
+//     try {
+//         const events = await Event.find(); // Fetch all events from MongoDB
+//         console.log("Events retrieved:", events); // Log the events for debugging
+//         res.render('event_manager', { events }); // Pass events to the template
+//     } catch (error) {
+//         console.error("Error retrieving events:", error);
+//         res.status(500).send("Error loading events");
+//     }
+// });
+
 
 // Events route to render events dynamically
-app.get('/events', async (req, res) => {
+app.get('/event-manager', async (req, res) => {
     try {
         const events = await Event.find(); // Fetch all events from MongoDB
-        res.render('events', { events }); // Render events.ejs with event data  
-        //above line also makes it so that when linking to events.ejs the extension is removed; ie we link to /events.
+        res.render('event_manager', { events }); // Pass events to the template
     } catch (error) {
-        console.error(error);
-        res.status(500).send('Error retrieving events');
+        console.error("Error retrieving events:", error);
+        res.status(500).send("Error loading events");
     }
 });
 
@@ -100,8 +108,8 @@ app.get('/redirect-to-event', (req, res) => {
 
 
 // Rendering for EJS views
-app.get('/event-manager', (req, res) => res.render('event_manager'));
 app.get('/event-signup', (req, res) => res.render('event_signup'));
+
 
 
 app.get('/notifs_update', (req, res) => {
@@ -111,6 +119,8 @@ app.get('/notifs_update', (req, res) => {
 const volunteersJSON = JSON.parse('[{"name": "John Cena", "skills": ["Physical Work", "Acting"]}, {"name": "Confucius", "skills": ["Philosophy"]}]');
 const eventsJSON = JSON.parse('[{"name": "Park Cleanup", "skills": ["Physical Work", "Cleaning"]}, {"name": "Volunteer at Soup Kitchen", "skills": ["Cooking", "Cleaning"]}, {"name": "Debating the Morals and Ethics of Modernity and Society", "skills": ["Philosophy", "Public Speaking"]}]');
 
+
+//this is the event-user matcher, as well as a check to see if the user exists.
 app.post('/find_events', async (req, res) => {
     const { parcel } = req.body;
     //check if user exists

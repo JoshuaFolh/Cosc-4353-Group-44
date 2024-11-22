@@ -40,17 +40,15 @@
     <div class="container">
         <form action="">
             <input class="form__input" type="text" placeholder="Event Name:" id="name" maxlength="100" required />
-            <label for="name">Event Name</label>
+            <label for="name" class="form__label">Event Name</label>
 
             <input type="text" class="form__input" placeholder="Event description:" id="description" required />
-            <label for="description">Event Name</label>
+            <label for="description" class="form__label">Event description</label>
 
             <input type="text" class="form__input" placeholder="location" id="location" required />
-            <label for="location">Location</label>
+            <label for="location" class="form__label">Location</label>
         </form>
-    </div>
 
-    <div class="container">
         <form id="Skills">
             <label for="Skills">Select all applicable skills  </label>
             <select id="Skills" name="Skills" multiple size="3" required>
@@ -59,6 +57,7 @@
                 <option value="HS">High School Diploma or Equivalent</option>
             </select>
         </form>
+
         <form id="UrgencyForm">
             <select id="Urgency" name="Urgency" required>
                 <option value="" disabled selected>Select Urgency:</option>
@@ -66,6 +65,11 @@
                 <option value="medium">Medium</option>
                 <option value="High">High</option>
             </select>
+        </form>
+
+    </div>
+
+    <div class="container">
     </div>
 
     

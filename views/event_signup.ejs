@@ -39,7 +39,20 @@
 
 
     <h1>Event Signup</h1>
-
+    <% events.forEach(event => { %>
+        <div class="event_container">
+        <ul>
+            <li>Event Name: <%= event.name %></li>
+            <li>Description: <%= event.description %></li>
+            <li>Location: <%= event.location %></li>
+            <li>Required skills: <%= event.skills %></li>
+            <li>Urgency: <%= event.urgency %></li>
+            <li>Event Date: <%= event.date %></li>
+        </ul>
+        <a href="/edit/<%= event._id %>">Edit this event</a> 
+        <!-- ! Link above does not work. -->
+    </div>
+    <% }) %>
 
 </body>
 </html>

@@ -278,15 +278,43 @@ app.post('/profile', async (req, res) => {
         availability: parcel.availability
     };
 
-    CURRENTUSER.details.fullname = profileData.fullName;
-    CURRENTUSER.details.address1 = profileData.address1;
-    CURRENTUSER.details.address2 = profileData.address2;
-    CURRENTUSER.details.city = profileData.city;
-    CURRENTUSER.details.zipcode = profileData.zipcode;
-    CURRENTUSER.details.preference = profileData.preference;
-    CURRENTUSER.details.state = profileData.state;
-    CURRENTUSER.details.skills = profileData.skills;
-    CURRENTUSER.details.availability = profileData.availability;
+    await userCollection.updateOne(
+        {_id: CURRENTUSER._id},
+        {$set: {"details.fullname": profileData.fullName}}
+    );
+    await userCollection.updateOne(
+        {_id: CURRENTUSER._id},
+        {$set: {"details.address1": profileData.address1}}
+    );
+    await userCollection.updateOne(
+        {_id: CURRENTUSER._id},
+        {$set: {"details.address2": profileData.address2}}
+    );
+    await userCollection.updateOne(
+        {_id: CURRENTUSER._id},
+        {$set: {"details.city": profileData.city}}
+    );
+    await userCollection.updateOne(
+        {_id: CURRENTUSER._id},
+        {$set: {"details.zipcode": profileData.zipcode}}
+    );
+    await userCollection.updateOne(
+        {_id: CURRENTUSER._id},
+        {$set: {"details.preference": profileData.preference}}
+    );
+    await userCollection.updateOne(
+        {_id: CURRENTUSER._id},
+        {$set: {"details.state": profileData.state}}
+    );
+    await userCollection.updateOne(
+        {_id: CURRENTUSER._id},
+        {$set: {"details.skills": profileData.skills}}
+    );
+    await userCollection.updateOne(
+        {_id: CURRENTUSER._id},
+        {$set: {"details.availability": profileData.availability}}
+    );
+    console.log(CURRENTUSER);
 
     res.status(200).json({ status: 'good' });
 });

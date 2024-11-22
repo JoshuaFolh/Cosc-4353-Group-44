@@ -92,36 +92,19 @@ app.get('/event-manager', async (req, res) => {
         res.status(500).send("Error loading events");
     }
 });
-//!debugging version: del me
+
 app.get('/redirect-to-event', (req, res) => {
-    if (!CURRENTUSER) {
-        console.log('No user logged in. Redirecting to login.');
+    if (!CURRENTUSER) {// Redirect to login if no user is currently logged in
         return res.redirect('/login/login.html');
     }
 
-    console.log(`CURRENTUSER isAdmin: ${CURRENTUSER.isAdmin}`);
+//     // Check if CURRENTUSER is an admin or regular user
     if (CURRENTUSER.isAdmin) {
-        console.log('Redirecting to /event-manager');
-        res.redirect('/event-manager');
+        res.redirect('/event-manager'); // Redirect to the admin view
     } else {
-        console.log('Redirecting to /event-signup');
-        res.redirect('/event-signup');
+        res.redirect('/event-signup');  // Redirect to the regular user view
     }
 });
-
-//!non-debugging version:
-// app.get('/redirect-to-event', (req, res) => {
-//     if (!CURRENTUSER) {// Redirect to login if no user is currently logged in
-//         return res.redirect('/login/login.html');
-//     }
-
-//     // Check if CURRENTUSER is an admin or regular user
-//     if (CURRENTUSER.isAdmin) {
-//         res.redirect('/event-manager'); // Redirect to the admin view
-//     } else {
-//         res.redirect('/event-signup');  // Redirect to the regular user view
-//     }
-// });
 
 
 // Rendering for EJS views
@@ -314,6 +297,16 @@ app.post('/profile', async (req, res) => {
 });
 
 module.exports = app;
+
+app.delete('/events/:id', async (req, res) => {
+    try {
+        const eventId = req.params.id;
+        await Event.findByIdAndDelete(eventId); // Use the existing EventDetails schema
+        res.status(200).json({ message: 'Event deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ message: 'Error deleting event', error });
+    }
+});
 
 app.listen(3000, () => console.log('App available on http://localhost:3000')); //tell the app to listen on port 3000
 

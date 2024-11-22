@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="/home/events/event.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Event Management</title>
+    <title>Event Signup</title>
 </head>
 <body>
 
@@ -39,6 +39,7 @@
 
 
     <h1>Event Signup</h1>
+    
     <% events.forEach(event => { %>
         <div class="event_container">
         <ul>
@@ -49,8 +50,7 @@
             <li>Urgency: <%= event.urgency %></li>
             <li>Event Date: <%= event.date %></li>
         </ul>
-        <a href="/edit/<%= event._id %>">Edit this event</a> 
-        <!-- ! Link above does not work. -->
+
     </div>
     <% }) %>
 

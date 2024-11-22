@@ -50,8 +50,7 @@
             <li>Urgency: <%= event.urgency %></li>
             <li>Event Date: <%= event.date %></li>
         </ul>
-        <a href="/edit/<%= event._id %>">Edit this event</a> 
-        <!-- ! Link above does not work. -->
+        <a href="#" class="delete-event" data-id="<%= event._id %>">Delete this event</a>
     </div>
     <% }) %>
     

@@ -92,24 +92,48 @@ app.get('/event-manager', async (req, res) => {
         res.status(500).send("Error loading events");
     }
 });
-
+//!debugging version: del me
 app.get('/redirect-to-event', (req, res) => {
-    if (!CURRENTUSER) {// Redirect to login if no user is currently logged in
+    if (!CURRENTUSER) {
+        console.log('No user logged in. Redirecting to login.');
         return res.redirect('/login/login.html');
     }
 
-    // Check if CURRENTUSER is an admin or regular user
+    console.log(`CURRENTUSER isAdmin: ${CURRENTUSER.isAdmin}`);
     if (CURRENTUSER.isAdmin) {
-        res.redirect('/event-manager'); // Redirect to the admin view
+        console.log('Redirecting to /event-manager');
+        res.redirect('/event-manager');
     } else {
-        res.redirect('/event-signup');  // Redirect to the regular user view
+        console.log('Redirecting to /event-signup');
+        res.redirect('/event-signup');
     }
 });
 
+//!non-debugging version:
+// app.get('/redirect-to-event', (req, res) => {
+//     if (!CURRENTUSER) {// Redirect to login if no user is currently logged in
+//         return res.redirect('/login/login.html');
+//     }
+
+//     // Check if CURRENTUSER is an admin or regular user
+//     if (CURRENTUSER.isAdmin) {
+//         res.redirect('/event-manager'); // Redirect to the admin view
+//     } else {
+//         res.redirect('/event-signup');  // Redirect to the regular user view
+//     }
+// });
+
 
 // Rendering for EJS views
-app.get('/event-signup', (req, res) => res.render('event_signup'));
-
+app.get('/event-signup', async (req, res) => {
+    try {
+        const events = await Event.find(); // Fetch all events from MongoDB
+        res.render('event_signup', { events }); // Pass events to the template
+    } catch (error) {
+        console.error("Error retrieving events:", error);
+        res.status(500).send("Error loading events");
+    }
+});
 
 
 app.get('/notifs_update', (req, res) => {

@@ -94,16 +94,11 @@ app.get('/event-manager', async (req, res) => {
 });
 
 app.get('/redirect-to-event', (req, res) => {
-    if (!CURRENTUSER) {// Redirect to login if no user is currently logged in
-        return res.redirect('/login/login.html');
-    }
-
+    if (!CURRENTUSER) {return res.redirect('/login/login.html');}
+    // Redirect to login if no user is currently logged in
 //     // Check if CURRENTUSER is an admin or regular user
-    if (CURRENTUSER.isAdmin) {
-        res.redirect('/event-manager'); // Redirect to the admin view
-    } else {
-        res.redirect('/event-signup');  // Redirect to the regular user view
-    }
+    if (CURRENTUSER.isAdmin) {res.redirect('/event-manager');} // Redirect to the admin view
+    else {res.redirect('/event-signup');}
 });
 
 

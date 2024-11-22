@@ -5,11 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile editing</title>
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script
-        src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
     <link rel="stylesheet" href="profile.css"> 
 </head>
 
@@ -30,7 +28,7 @@
                 </a>
             </li>
             <li class="list_item">
-                <a href="/events">
+                <a href="/redirect-to-event">
                     <img class="list_icon" src="../images/calendar.png" alt="event_icon"><br />
                     <span class="list_text">Events</span>
                 </a>
@@ -154,7 +152,8 @@
     <button type="button" onclick="gotoLink(this)" value="volHist.html">Volunteer History</button>
 
 
-    <script src="profile.js">
+    <script src="profile.js"></script>
+    <script>
         // Initialize datepicker with multi-date selection
         $('#availability').datepicker({
             format: "mm/dd/yyyy",

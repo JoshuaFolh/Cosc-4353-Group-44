@@ -15,6 +15,9 @@ app.use(express.static('public'));
 
 let CURRENTUSER;
 
+app.setCurrentUser = (user_document) => {
+    CURRENTUSER = user_document;
+};
 
 
 mongoose.connect("mongodb://localhost:27017/Vol")
@@ -278,6 +281,10 @@ app.post('/profile', async (req, res) => {
         availability: parcel.availability
     };
 
+    //this is horrible
+    //but it is what it is
+    CURRENTUSER.details.username = profileData.fullName;
+
     await userCollection.updateOne(
         {_id: CURRENTUSER._id},
         {$set: {"details.fullname": profileData.fullName}}
@@ -314,7 +321,6 @@ app.post('/profile', async (req, res) => {
         {_id: CURRENTUSER._id},
         {$set: {"details.availability": profileData.availability}}
     );
-    console.log(CURRENTUSER);
 
     res.status(200).json({ status: 'good' });
 });

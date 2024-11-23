@@ -47,6 +47,6 @@ describe('POST /profile', () => {
             .send({parcel});
         expect(response.status).toBe(200);
         //console.log(CURRENTUSER);
-        expect(CURRENTUSER.details.skills[0]).toBe("test");
+        expect(CURRENTUSER.details.username).toBe("test");
     });
 });

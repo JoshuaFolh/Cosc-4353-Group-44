@@ -24,7 +24,8 @@
     "js-priority-queue": "^0.1.5",
     "mongoose": "^8.7.3",
     "nyc": "^17.1.0",
-    "password-validator": "^5.3.0"
+    "password-validator": "^5.3.0",
+    "pdfkit": "^0.15.1"
   },
   "devDependencies": {
     "mongodb-memory-server": "^10.1.2",

@@ -31,7 +31,7 @@ const { profile } = require('console');
 const eventSchema = new mongoose.Schema({
     name: String,
     description: String,
-    location: String,
+    loc: String,
     skills: String,
     urgency: String,
     date: String,
@@ -251,17 +251,31 @@ app.post('/registration', async (req, res) => {
     }
 });
 
-app.post('/submit-create event', (req, res) => {
-    const profileData = {
-        name: req.body.name,
-        description: req.body.description,
-        location: req.body.location,
-        skills: req.body.skills,
-        UrgencyForm: req.body.UrgencyForm
-    };
-    console.log(profileData);
-    res.statusCode(200).json({ status: 'good' });
-})
+app.post('/create-event', async (req, res) => {
+    const { name, description, loc, skills, Urgency } = req.body;
+
+    // Validate data as necessary
+    if (!name || !description || !loc || !skills || !Urgency) {
+        return res.status(400).json({ status: "error", message: "Missing required fields" });
+    }
+
+    try {
+        const newEvent = new EventDetails({
+            name,
+            description,
+            loc,
+            skills,
+            Urgency
+        });
+
+        await newEvent.save();
+        res.json({ status: "good" });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ status: "error", message: "Server error" });
+    }
+});
+
 
 app.post('/profile', async (req, res) => {
     const { parcel } = req.body;

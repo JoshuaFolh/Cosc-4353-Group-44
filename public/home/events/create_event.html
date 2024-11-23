@@ -22,7 +22,7 @@
                 </a>
             </li>
             <li class="list_item">
-                <a href="/events">
+                <a href="/redirect-to-event">
                     <img class="list_icon" src="../images/calendar.png" alt="event_icon"><br />
                     <span class="list_text">Events</span>
                 </a>
@@ -45,8 +45,8 @@
             <input type="text" class="form__input" placeholder="Event description:" id="description" required />
             <label for="description" class="form__label">Event description</label>
 
-            <input type="text" class="form__input" placeholder="location" id="location" required />
-            <label for="location" class="form__label">Location</label>
+            <input type="text" class="form__input" placeholder="loc" id="loc" required />
+            <label for="loc" class="form__label">Location</label>
         </form>
 
         <form id="Skills">
@@ -58,8 +58,8 @@
             </select>
         </form>
 
-        <form id="UrgencyForm">
-            <select id="Urgency" name="Urgency" required>
+        <form id="Urgency">
+            <select id="UrgencySel" name="Urgency" required>
                 <option value="" disabled selected>Select Urgency:</option>
                 <option value="low">Low</option>
                 <option value="medium">Medium</option>
@@ -69,8 +69,9 @@
 
     </div>
 
-    <div class="container">
-    </div>
+    <button type="button" id="subBtn">Submit</button>
+
+    <script src="create_event.js"></script>
 
     
 </body>
